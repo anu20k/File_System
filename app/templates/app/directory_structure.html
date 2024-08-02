@@ -1,0 +1,20 @@
+{% load custom_filters %}
+
+<ul>
+    {% for key, value in structure.items %}
+    {% if value %}
+    <li class="folder">
+        <span class="arrow"></span>
+        <i class="fas fa-folder"></i> {{ key }}
+        <ul class="nested">
+            {% include 'app/directory_structure.html' with structure=value path=path|add:key|add:'/' %}
+        </ul>
+    </li>
+    {% else %}
+    <li class="file " data-file-url="{% url 'view_file' file_path=path|add:key %}">
+        <i class="{{ key|file_icon }}"></i> {{ key }}
+    </li>
+    {% endif %}
+    {% endfor %}
+</ul>
+

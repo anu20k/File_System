@@ -1,0 +1,6 @@
+C:\Users\dell\Desktop\New folder (3)\DjangoWebProject1\obj\Any CPU\Debug\DjangoWebProject1.pyproj.CoreCompileInputs.cache
+C:\Users\dell\Desktop\demo\DjangoWebProject1\obj\Any CPU\Debug\DjangoWebProject1.pyproj.CoreCompileInputs.cache
+C:\Users\dell\Desktop\demo - Copy\DjangoWebProject1\obj\Any CPU\Debug\DjangoWebProject1.pyproj.CoreCompileInputs.cache
+C:\Users\dell\Desktop\version 2\DjangoWebProject1\obj\Any CPU\Debug\DjangoWebProject1.pyproj.CoreCompileInputs.cache
+C:\Users\Ganesh Dhumal\Downloads\version 2\version 2\DjangoWebProject1\obj\Any CPU\Debug\DjangoWebProject1.pyproj.CoreCompileInputs.cache
+C:\Users\dell\Desktop\version 2\version 2\DjangoWebProject1\obj\Any CPU\Debug\DjangoWebProject1.pyproj.CoreCompileInputs.cache

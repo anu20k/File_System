@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>File Explorer</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .folder {
+            cursor: pointer;
+            margin-left: 20px;
+        }
+
+        .nested {
+            display: none;
+            margin-left: 20px;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .arrow {
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .arrow-down::before {
+            content: "▼";
+        }
+
+        .arrow::before {
+            content: "▶";
+        }
+
+        .file-popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #000;
+            padding: 20px;
+            background-color: #fff;
+            z-index: 1000;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+            .file-popup iframe {
+                width: 100%;
+                height: 80vh;
+                border: none;
+            }
+
+            .file-popup .close {
+                cursor: pointer;
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                font-size: 20px;
+            }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mb-4">File Explorer</h2>
+        <ul id="file-explorer">
+            {% include 'app/directory_structure.html' with structure=structure path='' %}
+        </ul>
+    </div>
+
+    <div class="overlay"></div>
+    <div class="file-popup">
+        <span class="close">&times;</span>
+        <iframe src="" frameborder="0"></iframe>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toggler = document.getElementsByClassName("arrow");
+            for (var i = 0; i < toggler.length; i++) {
+                toggler[i].addEventListener("click", function () {
+                    this.parentElement.querySelector(".nested").classList.toggle("active");
+                    this.classList.toggle("arrow-down");
+                });
+            }
+
+            var files = document.getElementsByClassName("file");
+            var popup = document.querySelector(".file-popup");
+            var overlay = document.querySelector(".overlay");
+            var close = document.querySelector(".file-popup .close");
+            var iframe = document.querySelector(".file-popup iframe");
+
+            for (var i = 0; i < files.length; i++) {
+                files[i].addEventListener("dblclick", function () {
+                    var fileUrl = this.getAttribute("data-file-url");
+                    iframe.src = fileUrl;
+                    popup.style.display = "block";
+                    overlay.style.display = "block";
+                });
+            }
+
+            close.addEventListener("click", function () {
+                popup.style.display = "none";
+                overlay.style.display = "none";
+                iframe.src = "";
+            });
+
+            overlay.addEventListener("click", function () {
+                popup.style.display = "none";
+                overlay.style.display = "none";
+                iframe.src = "";
+            });
+        });
+    </script>
+</body>
+</html>
