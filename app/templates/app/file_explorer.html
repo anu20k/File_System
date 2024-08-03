@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>File Explorer</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .folder {
             cursor: pointer;
@@ -43,14 +42,11 @@
             padding: 20px;
             background-color: #fff;
             z-index: 1000;
-            max-width: 90%;
-            max-height: 90%;
         }
 
             .file-popup iframe {
-                width: 100%;
-                height: 80vh;
-                border: none;
+                width: 800px;
+                height: 600px;
             }
 
             .file-popup .close {
@@ -74,12 +70,10 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2 class="mb-4">File Explorer</h2>
-        <ul id="file-explorer">
-            {% include 'app/directory_structure.html' with structure=structure path='' %}
-        </ul>
-    </div>
+    <h1>File Explorer</h1>
+    <ul id="file-explorer">
+        {% include 'app/directory_structure.html' with structure=structure parent_path="" %}
+    </ul>
 
     <div class="overlay"></div>
     <div class="file-popup">
@@ -104,7 +98,8 @@
             var iframe = document.querySelector(".file-popup iframe");
 
             for (var i = 0; i < files.length; i++) {
-                files[i].addEventListener("dblclick", function () {
+                files[i].addEventListener("click", function (e) {
+                    e.preventDefault();
                     var fileUrl = this.getAttribute("data-file-url");
                     iframe.src = fileUrl;
                     popup.style.display = "block";

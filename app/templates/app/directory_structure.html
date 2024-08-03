@@ -1,20 +1,15 @@
-{% load custom_filters %}
-
-<ul>
-    {% for key, value in structure.items %}
-    {% if value %}
-    <li class="folder">
-        <span class="arrow"></span>
-        <i class="fas fa-folder"></i> {{ key }}
-        <ul class="nested">
-            {% include 'app/directory_structure.html' with structure=value path=path|add:key|add:'/' %}
-        </ul>
-    </li>
+{% for folder, content in structure.items %}
+<li>
+    {% if content %}
+    <!-- Nested folder -->
+    <span class="arrow"></span>
+    <span class="folder">{{ folder }}</span>
+    <ul class="nested">
+        {% include 'app/directory_structure.html' with structure=content parent_path=parent_path|add:'/'|add:folder %}
+    </ul>
     {% else %}
-    <li class="file " data-file-url="{% url 'view_file' file_path=path|add:key %}">
-        <i class="{{ key|file_icon }}"></i> {{ key }}
-    </li>
+    <!-- File -->
+    <a href="{% url 'decrypt_file' file_path=parent_path|add:'/'|add:folder %}" class="file" data-file-url="{% url 'decrypt_file' file_path=parent_path|add:'/'|add:folder %}">{{ folder }}</a>
     {% endif %}
-    {% endfor %}
-</ul>
-
+</li>
+{% endfor %}

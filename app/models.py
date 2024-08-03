@@ -35,7 +35,7 @@ class UploadedFile(models.Model):
     uploaded_on = models.DateTimeField(default=timezone.now)
     crc32 = models.CharField(max_length=8)
     location = models.CharField(max_length=255)
-
+    key = models.IntegerField(default=42)
    
     
 
@@ -72,6 +72,7 @@ class UploadHistory(models.Model):
     uploaded_on = models.DateTimeField(default=timezone.now,null=True)
     crc32 = models.CharField(max_length=8,null=True)
     location = models.CharField(max_length=255,null=True)
+    
     
     def save(self, *args, **kwargs):
         # Extract file name from the file path
