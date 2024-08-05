@@ -1,58 +1,29 @@
-
-
 from operator import xor
-
 from datetime import datetime
 from django.shortcuts import render, redirect
-from django.http import HttpRequest
 from .forms import UploadedFileForm
 from .models import UploadedFile,UploadHistory
 from django.shortcuts import render, redirect
-from datetime import datetime
-from django.shortcuts import render
 from django.http import HttpRequest
-from django.shortcuts import render
 from django.http import HttpResponse, Http404
 import os
 from django.shortcuts import get_object_or_404
 from django.conf import settings
-import os
 import mimetypes
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
-
-import os
-from django.conf import settings
-import mimetypes
-from .forms import UploadedFileForm
 from django.contrib.auth.decorators import login_required
 import zlib
-
-from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
 from .storage import temp_storage, main_storage 
 from django.core.files.storage import default_storage as main_storage
 from django.core.files.storage import default_storage as temp_storage
 from .utils import get_directory_structure
-
-from django.shortcuts import render
-from django.conf import settings
-from .utils import get_directory_structure
-
-from django.shortcuts import render
-from django.conf import settings
-from .utils import get_directory_structure
-import os
 from django.core.files.base import ContentFile
-
 import logging
-
 logger = logging.getLogger(__name__)
 
-from django.conf import settings
-from django.http import HttpResponse, Http404
-from urllib.parse import unquote
+
+
 
 def file_explorer(request):
     rootdir = os.path.join(settings.MEDIA_ROOT, 'uploads')
@@ -61,10 +32,6 @@ def file_explorer(request):
         'structure': directory_structure,
         'MEDIA_URL': settings.MEDIA_URL,
     })
-
-
-
-
 
 
 def home(request):
@@ -109,39 +76,6 @@ def about(request):
 def xor_encrypt_decrypt(data, key):
     # XOR each byte with the key
     return bytearray([b ^ key for b in data])
-
-
-
-
-
-
-
-# def view_file(request, file_path):
-#     # Construct the full file path
-#     file_path = os.path.join(settings.MEDIA_ROOT, unquote(file_path))
-#     print(f"Resolved file path: {file_path}")
-    
-#     # Determine the file's MIME type
-#     mime_type, _ = mimetypes.guess_type(file_path)
-#     if mime_type is None:
-#         mime_type = 'application/octet-stream'
-     
-    
-#     try:
-#         # Read the encrypted file
-#         with open(file_path, 'rb') as f:
-#             file_name = f.read()
-        
-        
-        
-
-#         # Prepare the HTTP response with decrypted data
-#         response = HttpResponse(file_name, content_type=mime_type)
-#         response['Content-Disposition'] = f'inline; filename={os.path.basename(file_path)}'
-#         return response
-    
-#     except Exception as e:
-#         return HttpResponse(f"Error reading or decrypting file: {e}", status=500)
 
 
 def save_file_in_chunks(uploaded_file, storage, path):

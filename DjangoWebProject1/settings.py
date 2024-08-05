@@ -29,12 +29,14 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = 'account.CustomUser'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
 INSTALLED_APPS = [
-   'app',
-   'account',
+   'account.apps.AccountConfig',
+    'app.apps.AppConfig',
     # Add your apps here to enable them
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     
     
 ]
