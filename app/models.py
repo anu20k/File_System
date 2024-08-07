@@ -61,6 +61,10 @@ class UserHistory(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     action = models.CharField(max_length=255)
     timestamp = models.DateTimeField(default=timezone.now)
+    
+    
+    def __str__(self):
+        return f"{self.user} - {self.action} - {self.timestamp}"
 
 class UploadHistory(models.Model):
     uploaded_by =models.CharField(max_length=100,null=True)
@@ -98,11 +102,14 @@ class DownloadHistory(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     file = models.ForeignKey(UploadHistory, on_delete=models.CASCADE)
     download_timestamp = models.DateTimeField(default=timezone.now)
+    
+
+
         
     
             
 
-    
+
     
     
     

@@ -4,7 +4,7 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <Name>DjangoWebProject1</Name>
     <RootNamespace>DjangoWebProject1</RootNamespace>
-    <InterpreterId>MSBuild|env2|$(MSBuildProjectFullPath)</InterpreterId>
+    <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
     <TestFramework>Pytest</TestFramework>
   </PropertyGroup>
   <PropertyGroup>
@@ -95,6 +95,8 @@
     <Content Include="app\templates\app\directory_structure.html" />
     <Content Include="app\templates\app\file_explorer.html" />
     <Content Include="app\templates\app\upload_file.html" />
+    <Content Include="app\templates\app\upload_history_report.html" />
+    <Content Include="app\templates\app\user_history_report.html" />
     <Content Include="db.sqlite3" />
     <Content Include="history.sqlite3" />
     <Content Include="requirements.txt" />
@@ -137,6 +139,15 @@
       <Id>env2</Id>
       <Version>3.11</Version>
       <Description>env2 (Python 3.11 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
+    <Interpreter Include="env\">
+      <Id>env</Id>
+      <Version>3.11</Version>
+      <Description>env (Python 3.11 (64-bit))</Description>
       <InterpreterPath>Scripts\python.exe</InterpreterPath>
       <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
       <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>

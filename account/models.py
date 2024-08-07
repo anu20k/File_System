@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .manager import UserManager
-
+from django.contrib import admin
 
 class CustomUser(AbstractUser):
     username = None
@@ -20,3 +20,12 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.unique_id
+    
+
+
+# Admin Configuration
+# @admin.register(CustomUser)
+# class CustomUserAdmin(admin.ModelAdmin):
+#     list_display = ('unique_id', 'email', 'is_patient', 'is_doctor')
+#     search_fields = ('unique_id', 'email')
+#     list_filter = ('is_patient', 'is_doctor')

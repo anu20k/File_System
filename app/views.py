@@ -2,7 +2,7 @@ from operator import xor
 from datetime import datetime
 from django.shortcuts import render, redirect
 from .forms import UploadedFileForm
-from .models import UploadedFile,UploadHistory
+from .models import UploadedFile,UploadHistory,UserHistory
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from django.http import HttpResponse, Http404
@@ -20,6 +20,8 @@ from django.core.files.storage import default_storage as temp_storage
 from .utils import get_directory_structure
 from django.core.files.base import ContentFile
 import logging
+from django.core.paginator import Paginator
+from django.db.models import Q
 logger = logging.getLogger(__name__)
 
 
@@ -176,17 +178,17 @@ def upload_file(request):
                         )
                         new_file.save()
 
-                        # new_history=UploadHistory(
-                        #     uploaded_by=request.user,
-                        #     category=category,
-                        #     file=dynamic_path,
-                        #     user_id=user_id,
-                        #     uploaded_on=form.cleaned_data['uploaded_on'],
-                        #     crc32=crc32_checksum,
-                        #     )
-                        # new_history.save(using='history')
+                        new_history=UploadHistory(
+                            uploaded_by=request.user,
+                            category=category,
+                            file=dynamic_path,
+                            user_id=user_id,
+                            uploaded_on=form.cleaned_data['uploaded_on'],
+                            crc32=crc32_checksum,
+                            )
+                        new_history.save(using='history')
                         
-                        # print(main_file_path)
+                        print(main_file_path)
                         messages.success(request, f'File uploaded successfully: {uploaded_file.name}')
 
                     # Delete the temporary file
@@ -234,3 +236,40 @@ def decrypt_file(request, file_path):
     response = HttpResponse(decrypted_data, content_type=content_type)
     response['Content-Disposition'] = f'inline; filename={os.path.basename(file_path)}'
     return response
+
+
+def upload_history_report(request):
+    # Get filter parameters from GET request
+    uploaded_by = request.GET.get('uploaded_by', '')
+    category = request.GET.get('category', '')
+    start_date = request.GET.get('start_date', '')
+    end_date = request.GET.get('end_date', '')
+
+    # Build query with filters
+    filters = Q()
+    if uploaded_by:
+        filters &= Q(uploaded_by__icontains=uploaded_by)
+    if category:
+        filters &= Q(category__icontains=category)
+    if start_date and end_date:
+        filters &= Q(uploaded_on__range=[start_date, end_date])
+
+    upload_history_list = UploadHistory.objects.filter(filters)
+
+    # Pagination
+    paginator = Paginator(upload_history_list, 10)  # Show 10 records per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'app/upload_history_report.html', {'page_obj': page_obj})
+
+
+
+def user_history_report(request):
+    history_list = UserHistory.objects.all().order_by('-timestamp')
+
+    paginator = Paginator(history_list, 10)  # Show 10 histories per page.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'app/user_history_report.html', {'page_obj': page_obj})
